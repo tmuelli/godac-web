@@ -1,0 +1,399 @@
+openapi: 3.1.0
+info:
+  title: godac-web API
+  version: 0.1.0
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: http://localhost:8080
+    description: Local development
+security: []
+paths:
+  /api/species:
+    get:
+      summary: List all species
+      operationId: listSpecies
+      responses:
+        "200":
+          description: All species
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SpecieSummary"
+  /api/species/{id}/defaults:
+    get:
+      summary: Get default values for specie
+      operationId: getSpecieDefaults
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Specie defaults
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInput"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/moves:
+    get:
+      summary: List all moves
+      operationId: listMoves
+      responses:
+        "200":
+          description: All moves
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MoveSummary"
+  /api/moves/{id}/defaults:
+    get:
+      summary: Get default values for moves
+      operationId: getMoveDefaults
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Move defaults
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MoveDefaults"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/abilities:
+    get:
+      summary: List all abilities
+      operationId: listAbilities
+      responses:
+        "200":
+          description: All abilities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AbilitySummary"
+  /api/items:
+    get:
+      summary: List all items
+      operationId: listItems
+      responses:
+        "200":
+          description: All items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ItemSummary"
+  /api/natures:
+    get:
+      summary: List all natures
+      operationId: listNatures
+      responses:
+        "200":
+          description: All natures
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NatureSummary"
+  /api/types:
+    get:
+      summary: List all types
+      operationId: listTypes
+      responses:
+        "200":
+          description: All types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TypeSummary"
+  /api/calc:
+    post:
+      summary: Calculate damage
+      operationId: calculateDamage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalcRequest"
+      responses:
+        "200":
+          description: Damage result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BattleResult"
+        "400":
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Calculation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    SpecieSummary:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+    MoveSummary:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+    AbilitySummary:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+    ItemSummary:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+    NatureSummary:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+    TypeSummary:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+    CalcRequest:
+      type: object
+      required: [attacker, defender, field]
+      properties:
+        attacker: { $ref: "#/components/schemas/UserInput" }
+        defender: { $ref: "#/components/schemas/UserInput" }
+        field: { $ref: "#/components/schemas/UserFieldInput" }
+    UserInput:
+      type: object
+      required:
+        [
+          name,
+          level,
+          nature,
+          attackMove,
+          moves,
+          healthPercent,
+          ability,
+          boosts,
+          types,
+          ivSetting,
+          evSetting
+        ]
+      properties:
+        name: { type: string }
+        level: { type: integer, minimum: 1, maximum: 100 }
+        nature: { type: string }
+        attackMove: { type: string }
+        moves:
+          type: array
+          items:
+            type: string
+        healthPercent: { type: integer, minimum: 1, maximum: 100 }
+        ability: { type: string }
+        boosts: { $ref: "#/components/schemas/UserInputBoosts" }
+        types:
+          type: array
+          items:
+            type: string
+        ivSetting: { type: string, enum: [custom, optimal, worstCase] }
+        evSetting: { type: string, enum: [custom, optimal, worstCase] }
+        ivCustom: { $ref: "#/components/schemas/IvStats" }
+        evCustom: { $ref: "#/components/schemas/EvStats" }
+        baseStatsOverride: { $ref: "#/components/schemas/BaseStats" }
+        moveOverride: { $ref: "#/components/schemas/UserMoveOverride" }
+        abilityOn: { type: boolean }
+        item: { type: string }
+        status:
+          type: string
+          enum:
+            - none
+            - healthy
+            - poisoned
+            - badly poisoned
+            - burned
+            - paralyzed
+            - asleep
+            - frozen
+        gender:
+          type: string
+          enum:
+            - F
+            - M
+            - N
+        hits: { type: integer }
+        metronomeHits: { type: integer }
+    UserMoveOverride:
+      type: object
+      required: [type, category]
+      properties:
+        basePower: { type: integer, minimum: 0 }
+        type: { type: string }
+        category: { type: string, enum: [physical, special, status] }
+        critical: { type: boolean }
+    MoveDefaults:
+      type: object
+      required: [override, hits, metronomeHits]
+      properties:
+        override: { $ref: "#/components/schemas/UserMoveOverride" }
+        hits: { type: integer, minimum: 1 }
+        metronomeHits: { type: integer, minimum: 0 }
+    BaseStats:
+      type: object
+      required: [hp, atk, def, spa, spd, spe]
+      properties:
+        hp: { type: integer, minimum: 1, maximum: 255 }
+        atk: { type: integer, minimum: 1, maximum: 255 }
+        def: { type: integer, minimum: 1, maximum: 255 }
+        spa: { type: integer, minimum: 1, maximum: 255 }
+        spd: { type: integer, minimum: 1, maximum: 255 }
+        spe: { type: integer, minimum: 1, maximum: 255 }
+    IvStats:
+      type: object
+      required: [hp, atk, def, spa, spd, spe]
+      properties:
+        hp: { type: integer, minimum: 0, maximum: 31 }
+        atk: { type: integer, minimum: 0, maximum: 31 }
+        def: { type: integer, minimum: 0, maximum: 31 }
+        spa: { type: integer, minimum: 0, maximum: 31 }
+        spd: { type: integer, minimum: 0, maximum: 31 }
+        spe: { type: integer, minimum: 0, maximum: 31 }
+    EvStats:
+      type: object
+      required: [hp, atk, def, spa, spd, spe]
+      properties:
+        hp: { type: integer, minimum: 0, maximum: 252 }
+        atk: { type: integer, minimum: 0, maximum: 252 }
+        def: { type: integer, minimum: 0, maximum: 252 }
+        spa: { type: integer, minimum: 0, maximum: 252 }
+        spd: { type: integer, minimum: 0, maximum: 252 }
+        spe: { type: integer, minimum: 0, maximum: 252 }
+    UserInputBoosts:
+      type: object
+      required: [atk, def, spa, spd, spe]
+      properties:
+        atk: { type: integer, minimum: -6, maximum: 6 }
+        def: { type: integer, minimum: -6, maximum: 6 }
+        spa: { type: integer, minimum: -6, maximum: 6 }
+        spd: { type: integer, minimum: -6, maximum: 6 }
+        spe: { type: integer, minimum: -6, maximum: 6 }
+    UserFieldInput:
+      type: object
+      required: [type, level, terrain, isGravity, left, right]
+      properties:
+        type:
+          type: string
+          enum:
+            - Singles
+            - Doubles
+        level: { type: integer }
+        terrain:
+          type: string
+          enum:
+            - None
+            - Sun
+            - Rain
+            - Sand
+            - Hail
+        isGravity: { type: boolean }
+        left: { $ref: "#/components/schemas/UserFieldSideInput" }
+        right: { $ref: "#/components/schemas/UserFieldSideInput" }
+    UserFieldSideInput:
+      type: object
+      required:
+        [
+          stealthRocks,
+          spikes,
+          reflect,
+          lightScreen,
+          protect,
+          leechSeed,
+          foresight,
+          helpingHand,
+          tailwind,
+          flowerGift,
+          powerTrick,
+          switchingOut,
+        ]
+      properties:
+        stealthRocks: { type: boolean }
+        spikes:
+          type: integer
+          minimum: 0
+          maximum: 3
+        reflect: { type: boolean }
+        lightScreen: { type: boolean }
+        protect: { type: boolean }
+        leechSeed: { type: boolean }
+        foresight: { type: boolean }
+        helpingHand: { type: boolean }
+        tailwind: { type: boolean }
+        flowerGift: { type: boolean }
+        powerTrick: { type: boolean }
+        switchingOut: { type: boolean }
+    BattleResult:
+      type: object
+      required: [range, dmgMatrix]
+      properties:
+        range: { $ref: "#/components/schemas/BattleResultRange" }
+        dmgMatrix:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+    BattleResultRange:
+      type: object
+      required: [min, minPerc, max, maxPerc]
+      properties:
+        min: { type: integer }
+        minPerc: { type: number }
+        max: { type: integer }
+        maxPerc: { type: number }
+    Error:
+      type: object
+      required: [message]
+      properties:
+        message: { type: string }
