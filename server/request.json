@@ -1,0 +1,12 @@
+{
+  "attacker": {"name":"Poochyena","level":100,"nature":"Hardy","attackMove":"Bite","moves":["Bite"],"healthPercent":100,"ivSetting":"custom","ivCustom":{"hp":31,"atk":31,"def":31,"spa":31,"spd":31,"spe":31},"evSetting":"custom","evCustom":{"hp":0,"atk":0,"def":0,"spa":0,"spd":0,"spe":0},"types":["dark"],"ability":"Run Away","status":"healthy","gender":"F","boosts":{"atk":0,"def":0,"spa":0,"spd":0,"spe":0},"baseStatsOverride":{"hp":35,"atk":55,"def":35,"spa":30,"spd":30,"spe":35}},
+  "defender": {"name":"Poochyena","level":100,"nature":"Hardy","attackMove":"","moves":null,"healthPercent":100,"ivSetting":"custom","ivCustom":{"hp":31,"atk":31,"def":31,"spa":31,"spd":31,"spe":31},"evSetting":"custom","evCustom":{"hp":0,"atk":0,"def":0,"spa":0,"spd":0,"spe":0},"types":["dark"],"ability":"Run Away","status":"healthy","gender":"F","boosts":{"atk":0,"def":0,"spa":0,"spd":0,"spe":0},"baseStatsOverride":{"hp":35,"atk":55,"def":35,"spa":30,"spd":30,"spe":35}},
+  "field": {
+    "type": "Singles",
+    "level": 100,
+    "terrain": "None",
+    "isGravity": false,
+    "left":  { "stealthRocks": false, "spikes": 0, "reflect": false, "lightScreen": false, "protect": false, "leechSeed": false, "foresight": false, "helpingHand": false, "tailwind": false, "flowerGift": false, "powerTrick": false, "switchingOut": false },
+    "right": { "stealthRocks": false, "spikes": 0, "reflect": false, "lightScreen": false, "protect": false, "leechSeed": false, "foresight": false, "helpingHand": false, "tailwind": false, "flowerGift": false, "powerTrick": false, "switchingOut": false }
+  }
+}
