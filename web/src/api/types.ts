@@ -1,6 +1,6 @@
-import type { components } from './schema';
+import type { components } from "./schema";
 
-type Schemas = components["schemas"]
+type Schemas = components["schemas"];
 
-export type EntrySummary = Schemas["SpecieSummary"]
-export type ApiErrorBody = Schemas["Error"]
+export type EntrySummary = Schemas["SpecieSummary"];
+export type ApiErrorBody = Schemas["Error"];

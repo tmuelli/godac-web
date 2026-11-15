@@ -1,22 +1,22 @@
 import type { ApiErrorBody } from "./types";
 
 export class ApiError extends Error {
-    status: number;
+  status: number;
 
-    constructor(status: number, message: string) {
-        super(message);
+  constructor(status: number, message: string) {
+    super(message);
 
-        this.name = "ApiError";
-        this.status = status;
-    }
+    this.name = "ApiError";
+    this.status = status;
+  }
 }
 
 export async function readError(response: Response): Promise<string> {
-    try {
-        const err = await response.json();
-        const body = err as ApiErrorBody;
-        return body.message;
-    } catch {
-        return `HTTP ${response.status}`;
-    }
+  try {
+    const err = await response.json();
+    const body = err as ApiErrorBody;
+    return body.message;
+  } catch {
+    return `HTTP ${response.status}`;
+  }
 }
