@@ -1,4 +1,4 @@
-import type { ApiErrorBody } from "./types";
+import type { ApiErrorBody } from "../types/types";
 
 export class ApiError extends Error {
   status: number;
