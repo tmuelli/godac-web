@@ -4,9 +4,10 @@ import * as React from "react";
 import CalcView from "./features/calculator/components/CalcView";
 import ConfigView from "./features/calculator/components/ConfigView";
 import FieldView from "./features/calculator/components/FieldView";
+import { DevTest } from "./components/DevTest";
 
 function App() {
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(3);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -25,6 +26,7 @@ function App() {
             <Tab label="Calc" {...tabA11yProps(0)} />
             <Tab label="Config" {...tabA11yProps(1)} />
             <Tab label="Field" {...tabA11yProps(2)} />
+            <Tab label="Test" {...tabA11yProps(3)} />
           </Tabs>
         </Box>
         <TabPanel value={tabValue} index={0}>
@@ -35,6 +37,9 @@ function App() {
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <FieldView />
+        </TabPanel>
+        <TabPanel value={tabValue} index={3}>
+          <DevTest />
         </TabPanel>
       </Stack>
     </main>
