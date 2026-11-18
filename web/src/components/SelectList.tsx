@@ -30,9 +30,9 @@ export function SelectList(props: ISelectListProps) {
     <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <List
         component="nav"
-        aria-label="main mailbox folders"
+        aria-label="select list"
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
+          <ListSubheader component="div" id="select-list-title">
             {title}
           </ListSubheader>
         }
