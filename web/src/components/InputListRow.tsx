@@ -27,7 +27,7 @@ export function InputListRow(props: IInputListRowProps) {
     case "select":
       inputField = (
         <SelectInputField
-          initial={opts.initial}
+          value={opts.value}
           name={name}
           options={opts.options}
         />

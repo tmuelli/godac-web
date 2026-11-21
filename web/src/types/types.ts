@@ -7,12 +7,13 @@ export type ApiErrorBody = Schemas["Error"];
 
 export type InputRowType = "numeric" | "select";
 
+// TODO: make fields optional depending on type or new extended interfaces
 export interface IInputListRowOptions {
-  initial?: string;
-  options?: string[];
+  value: string;
+  options: EntrySummary[];
 
-  min?: number;
-  max?: number;
+  min: number;
+  max: number;
 }
 
 export interface IInputListRow {

@@ -11,8 +11,10 @@ export default function ConfigBasicsTab() {
       name: "Name",
       inputType: "select",
       options: {
-        initial: "",
-        options: data !== undefined ? data.map((d) => d.name) : [],
+        value: "Poochyena",
+        options: data !== undefined ? data : [],
+        min: 0,
+        max: 0,
       },
     },
     {
@@ -20,8 +22,10 @@ export default function ConfigBasicsTab() {
       name: "Level",
       inputType: "numeric",
       options: {
-        min: 0,
+        min: 1,
         max: 100,
+        value: "",
+        options: [],
       },
     },
   ];
