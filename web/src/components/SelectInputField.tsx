@@ -22,31 +22,27 @@ export function SelectInputField(props: ISelectInputFieldProps) {
 
   const [isListVisible, setIsListVisible] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
-  const [isError, setIsError] = React.useState(false);
   const [typedValue, setTypedValue] = React.useState<string | undefined>(
     undefined,
   );
   const [selectIndex, setSelectIndex] = React.useState(0);
-  const [filterValues, setFilterValues] = React.useState<EntrySummary[]>([]);
 
-  const updateFilter = (v: string) => {
-    // TODO: use maybe includes instead of startsWith
-    const newFilterValues = options.filter((o) =>
-      o.name.toLowerCase().startsWith(v.toLowerCase()),
-    );
-
-    setFilterValues(() => [...newFilterValues]);
+  const reset = () => {
+    setTypedValue(undefined);
+    setIsListVisible(false);
     setSelectIndex(0);
-
-    setIsError(newFilterValues.length > 0 ? false : true);
   };
 
   const selectValue = (entry: EntrySummary) => {
-    updateFilter(entry.name);
     onSelectEntry?.(entry);
-    setTypedValue(undefined);
-    setIsListVisible(false);
+    reset();
   };
+
+  const currentValue = typedValue ?? value;
+  // TODO: use maybe includes instead of startsWith
+  const filterValues = options.filter((o) =>
+    o.name.toLowerCase().startsWith(currentValue.toLowerCase()),
+  );
 
   const handleKeydown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     switch (e.key) {
@@ -78,9 +74,7 @@ export function SelectInputField(props: ISelectInputFieldProps) {
 
       case "Escape":
         e.preventDefault();
-        setTypedValue(undefined);
-        setIsListVisible(false);
-        setIsError(false);
+        reset();
         break;
     }
   };
@@ -97,10 +91,10 @@ export function SelectInputField(props: ISelectInputFieldProps) {
     >
       <TextField
         id="select-input-field"
-        value={typedValue ?? value}
+        value={currentValue}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setTypedValue(event.target.value);
-          updateFilter(event.target.value);
+          setSelectIndex(0);
           setIsListVisible(true);
         }}
         onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -118,16 +112,14 @@ export function SelectInputField(props: ISelectInputFieldProps) {
             if (searchEntry !== undefined) {
               selectValue(searchEntry);
             } else {
-              setTypedValue(undefined);
-              setIsListVisible(false);
-              setIsError(false);
+              reset();
             }
           }
 
           setIsFocused(false);
         }}
         label={name}
-        error={isError}
+        error={filterValues.length === 0}
       />
       {isListVisible && isFocused ? (
         <ComboboxList
